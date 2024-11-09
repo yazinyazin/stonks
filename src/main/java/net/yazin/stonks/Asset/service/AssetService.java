@@ -2,9 +2,9 @@ package net.yazin.stonks.Asset.service;
 
 import net.yazin.stonks.Asset.model.dto.CashRequestDTO;
 import net.yazin.stonks.Asset.model.entity.Asset;
-import net.yazin.stonks.Common.model.dto.AssetReserveRequestMessage;
-import net.yazin.stonks.Common.model.dto.OrderCancelledMessage;
-import net.yazin.stonks.Common.model.dto.OrderMatchedMessage;
+import net.yazin.stonks.Common.model.dto.events.AssetReserveRequestMessage;
+import net.yazin.stonks.Common.model.dto.events.OrderCancelledMessage;
+import net.yazin.stonks.Common.model.dto.events.OrderMatchedMessage;
 
 public interface AssetService {
 

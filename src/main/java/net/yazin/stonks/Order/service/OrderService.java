@@ -1,6 +1,6 @@
 package net.yazin.stonks.Order.service;
 
-import net.yazin.stonks.Common.model.dto.AssetReserveResponseMessage;
+import net.yazin.stonks.Common.model.dto.events.AssetReserveResponseMessage;
 import net.yazin.stonks.Order.model.dto.GenerateOrderDTO;
 
 public interface OrderService {

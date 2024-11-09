@@ -1,4 +1,4 @@
-package net.yazin.stonks.Common.model.dto;
+package net.yazin.stonks.Common.model.dto.events;
 
 import lombok.Builder;
 import lombok.Getter;

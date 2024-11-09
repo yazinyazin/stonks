@@ -1,9 +1,8 @@
 package net.yazin.stonks.Order.service;
 
 import lombok.RequiredArgsConstructor;
-import net.yazin.stonks.Common.model.dto.AssetReserveRequestMessage;
-import net.yazin.stonks.Common.model.dto.AssetReserveResponseMessage;
-import net.yazin.stonks.Common.model.dto.OrderMatchedMessage;
+import net.yazin.stonks.Common.model.dto.events.AssetReserveRequestMessage;
+import net.yazin.stonks.Common.model.dto.events.AssetReserveResponseMessage;
 import net.yazin.stonks.Common.model.enums.OrderSide;
 import net.yazin.stonks.Common.model.enums.OrderStatus;
 import net.yazin.stonks.Order.data.repository.OrderRepository;

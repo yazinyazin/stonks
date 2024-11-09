@@ -12,6 +12,6 @@ public interface AssetRepository extends JpaRepository<Asset,Integer> {
     @Query("SELECT a FROM Asset a WHERE TYPE(a) = CashAsset AND a.assetName = :var")
     Optional<CashAsset> findCashAssetByName(@Param("var")String assetName);
 
-    @Query("SELECT a FROM Asset WHERE a.assetName = :var")
+    @Query("SELECT a FROM Asset a WHERE a.assetName = :var")
     Optional<Asset> findAssetByName(@Param("var")String assetName);
 }

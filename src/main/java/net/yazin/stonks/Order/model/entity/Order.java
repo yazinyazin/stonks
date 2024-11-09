@@ -1,10 +1,6 @@
 package net.yazin.stonks.Order.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +9,7 @@ import net.yazin.stonks.Common.model.enums.OrderStatus;
 import net.yazin.stonks.Order.model.dto.GenerateOrderDTO;
 
 @Entity
+@Table(name = "STONK_ORDERS")
 @Getter
 @Setter
 @NoArgsConstructor

@@ -1,7 +1,7 @@
 package net.yazin.stonks.Asset.exception;
 
 import lombok.RequiredArgsConstructor;
-import net.yazin.stonks.Common.model.dto.AssetReserveResponseMessage;
+import net.yazin.stonks.Common.model.dto.events.AssetReserveResponseMessage;
 import net.yazin.stonks.Common.model.dto.ErrorMessage;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
