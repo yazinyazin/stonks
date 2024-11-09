@@ -2,6 +2,7 @@ package net.yazin.stonks.Asset.service;
 
 import lombok.RequiredArgsConstructor;
 import net.yazin.stonks.Asset.data.repository.AssetRepository;
+import net.yazin.stonks.Asset.exception.AssetCannotBeReservedException;
 import net.yazin.stonks.Asset.model.dto.CashRequestDTO;
 import net.yazin.stonks.Asset.model.entity.Asset;
 import net.yazin.stonks.Asset.model.entity.CashAsset;
@@ -55,7 +56,7 @@ public class AssetServiceImp implements AssetService {
     @ApplicationModuleListener
     public void reserveAsset(AssetReserveRequestMessage msg) {
 
-        Asset asset = assetRepository.findAssetByName(msg.getAssetName()).orElseThrow(()->new RuntimeException("Asset not found"));
+        Asset asset = assetRepository.findAssetByName(msg.getAssetName()).orElseThrow(()->new AssetCannotBeReservedException("Can't find asset",msg.getOrderId()));
 
         asset.reserve(msg.getOrderId(),msg.getRequestedSize());
 

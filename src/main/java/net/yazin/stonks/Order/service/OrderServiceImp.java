@@ -7,11 +7,17 @@ import net.yazin.stonks.Common.model.enums.OrderSide;
 import net.yazin.stonks.Common.model.enums.OrderStatus;
 import net.yazin.stonks.Order.data.repository.OrderRepository;
 import net.yazin.stonks.Order.model.dto.GenerateOrderDTO;
+import net.yazin.stonks.Order.model.dto.OrderSearchParamsDTO;
 import net.yazin.stonks.Order.model.entity.Order;
 import net.yazin.stonks.Order.model.mapper.OrderMapper;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +46,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    @Transactional
     public void generateOrder(GenerateOrderDTO orderDTO) {
 
         var order = orderRepository.save(Order.generateNewOrder(orderDTO));
@@ -60,6 +67,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    @Transactional
     public void matchOrder(int orderId) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(()->new RuntimeException("Order not found"));
@@ -70,6 +78,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    @Transactional
     public void cancelOrder(int orderId) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(()->new RuntimeException("Order not found"));
@@ -77,5 +86,10 @@ public class OrderServiceImp implements OrderService {
         orderRepository.save(order);
         publisher.publishEvent(orderMapper.getOrderCancelledMessage(order));
 
+    }
+
+    @Override
+    public Page<Order> search(OrderSearchParamsDTO params){
+        return orderRepository.findByCustomerIdAndCreatedDateGreaterThanAndCreatedDateLessThan(params.getCustomerId(), params.getStartDate(), params.getEndDate(), PageRequest.of(params.getPageNumber(),params.getItemCount()));
     }
 }

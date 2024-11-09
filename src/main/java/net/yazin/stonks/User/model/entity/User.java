@@ -14,9 +14,9 @@ public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int userId;
 
-    private String username;
-
     private String fullName;
+
+    private String email;
 
     private long dateJoined;
 

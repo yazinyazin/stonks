@@ -2,7 +2,10 @@ package net.yazin.stonks.Order.rest;
 
 import lombok.RequiredArgsConstructor;
 import net.yazin.stonks.Order.model.dto.GenerateOrderDTO;
+import net.yazin.stonks.Order.model.dto.OrderSearchParamsDTO;
+import net.yazin.stonks.Order.model.entity.Order;
 import net.yazin.stonks.Order.service.OrderService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +31,10 @@ public class OrderController {
     public ResponseEntity<Void> cancelOrder(@RequestParam("id")int id){
         orderService.cancelOrder(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("search")
+    public ResponseEntity<Page<Order>> search(@RequestBody OrderSearchParamsDTO params){
+        return ResponseEntity.ok(orderService.search(params));
     }
 }
