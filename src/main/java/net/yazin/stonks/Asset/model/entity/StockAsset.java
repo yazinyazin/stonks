@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.yazin.stonks.Asset.exception.IllegalAssetStateException;
 import net.yazin.stonks.Common.model.enums.OrderSide;
 
 @Entity
@@ -39,7 +38,7 @@ public class StockAsset extends Asset {
         if (side == OrderSide.SELL) {
 
             if (requestedSize > reservedSize()) {
-                throw new IllegalAssetStateException("Record mismatch. Seek help.");
+                throw new IllegalStateException("Record mismatch. Seek help.");
             }
 
             size -= requestedSize;
@@ -57,7 +56,7 @@ public class StockAsset extends Asset {
         if (side == OrderSide.SELL) {
 
             if (requestedSize > reservedSize()) {
-                throw new IllegalAssetStateException("Record mismatch. Seek help.");
+                throw new IllegalStateException("Record mismatch. Seek help.");
             }
 
             usableSize += requestedSize;

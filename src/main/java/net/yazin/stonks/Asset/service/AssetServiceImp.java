@@ -2,7 +2,6 @@ package net.yazin.stonks.Asset.service;
 
 import lombok.RequiredArgsConstructor;
 import net.yazin.stonks.Asset.data.repository.AssetRepository;
-import net.yazin.stonks.Asset.exception.AssetCannotBeReservedException;
 import net.yazin.stonks.Asset.model.dto.CashRequestDTO;
 import net.yazin.stonks.Asset.model.entity.Asset;
 import net.yazin.stonks.Asset.model.entity.CashAsset;
@@ -14,6 +13,7 @@ import net.yazin.stonks.Common.model.dto.events.OrderMatchedMessage;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,22 +27,24 @@ public class AssetServiceImp implements AssetService {
     private final ApplicationEventPublisher publisher;
 
     @Override
+    @Transactional
     public void depositCash(CashRequestDTO cashRequest) {
 
         CashAsset cashAsset = assetRepository.findCashAssetByName(cashRequest.getAssetName()).orElseGet(() -> new CashAsset(cashRequest.getAssetName(),cashRequest.getCustomerId()));
 
-        cashAsset.deposit(cashAsset.getSize());
+        cashAsset.deposit(cashRequest.getAmount());
 
         assetRepository.save(cashAsset);
 
     }
 
     @Override
+    @Transactional
     public void withdrawCash(CashRequestDTO cashRequest) {
 
         CashAsset cashAsset = assetRepository.findCashAssetByName(cashRequest.getAssetName()).orElseGet(() -> new CashAsset(cashRequest.getAssetName(),cashRequest.getCustomerId()));
 
-        cashAsset.withdraw(cashAsset.getSize());
+        cashAsset.withdraw(cashRequest.getAmount());
 
         assetRepository.save(cashAsset);
 
@@ -56,9 +58,12 @@ public class AssetServiceImp implements AssetService {
     @ApplicationModuleListener
     public void reserveAsset(AssetReserveRequestMessage msg) {
 
-        Asset asset = assetRepository.findAssetByName(msg.getAssetName()).orElseThrow(()->new AssetCannotBeReservedException("Can't find asset",msg.getOrderId()));
+        Asset asset = assetRepository.findAssetByName(msg.getAssetName()).orElse(new StockAsset());
 
-        asset.reserve(msg.getOrderId(),msg.getRequestedSize());
+        if(!asset.reserve(msg.getRequestedSize())){
+            publisher.publishEvent(AssetReserveResponseMessage.builder().success(false).orderId(msg.getOrderId()).build());
+            return;
+        }
 
         assetRepository.save(asset);
 

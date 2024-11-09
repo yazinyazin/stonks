@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.yazin.stonks.Asset.exception.AssetCannotBeReservedException;
 import net.yazin.stonks.Common.model.enums.OrderSide;
 
 @Entity
@@ -33,16 +32,16 @@ public abstract class Asset {
         return size - usableSize;
     }
 
-    public void reserve(int orderId, double requestedSize) {
+    public boolean reserve(double requestedSize) {
 
 
-        if (usableSize > requestedSize) {
-            throw new AssetCannotBeReservedException("Exceeded available size.", orderId);
+        if (requestedSize > usableSize) {
+            return false;
         }
 
         usableSize -= requestedSize;
 
-
+        return true;
     }
 
     public abstract void updateAfterMatchedOrder(OrderSide side, double requestedSize);

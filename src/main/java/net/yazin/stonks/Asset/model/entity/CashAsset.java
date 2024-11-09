@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.yazin.stonks.Asset.exception.IllegalAssetStateException;
 import net.yazin.stonks.Common.model.enums.OrderSide;
 
 
@@ -40,7 +39,7 @@ public class CashAsset extends Asset {
     public void withdraw(double withdrawalSize) {
 
         if (withdrawalSize > size || withdrawalSize > usableSize) {
-            throw new IllegalAssetStateException("Insufficient funds!");
+            throw new IllegalStateException("Insufficient funds!");
         }
 
         size -= withdrawalSize;
@@ -58,7 +57,7 @@ public class CashAsset extends Asset {
         } else {
 
             if (requestedSize > reservedSize()) {
-                throw new IllegalAssetStateException("Record mismatch. Seek help.");
+                throw new IllegalStateException("Record mismatch. Seek help.");
             }
 
             size -= requestedSize;
@@ -71,7 +70,7 @@ public class CashAsset extends Asset {
         if (side == OrderSide.BUY) {
 
             if (requestedSize > reservedSize()) {
-                throw new IllegalAssetStateException("Record mismatch. Seek help.");
+                throw new IllegalStateException("Record mismatch. Seek help.");
             }
 
             usableSize += requestedSize;
