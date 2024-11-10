@@ -12,11 +12,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface AssetRepository extends JpaRepository<Asset,Integer> {
-    @Query("SELECT a FROM Asset a WHERE TYPE(a) = CashAsset AND a.assetName = :var")
-    Optional<CashAsset> findCashAssetByName(@Param("var")String assetName);
+    @Query("SELECT a FROM Asset a WHERE TYPE(a) = CashAsset AND a.assetName = :var1 AND a.customerId = :var2")
+    Optional<CashAsset> findCashAssetByNameAndId(@Param("var1")String assetName, @Param("var2")String customerId);
 
-    @Query("SELECT a FROM Asset a WHERE a.assetName = :var")
-    Optional<Asset> findAssetByName(@Param("var")String assetName);
+    @Query("SELECT a FROM Asset a WHERE a.assetName = :var1 AND a.customerId = :var2")
+    Optional<Asset> findAssetByNameAndId(@Param("var1")String assetName, @Param("var2")String customerId);
 
     Page<Asset> findByCustomerId(String customerId, Pageable pageable);
 

@@ -34,12 +34,14 @@ public class OrderServiceImp implements OrderService {
                 AssetReserveRequestMessage.builder()
                                             .orderId(order.getOrderId())
                                             .requestedSize(order.getSize()*order.getPrice())
+                                            .customerId(order.getCustomerId())
                                             .assetName(order.getAssetAgainst())
                                             .build()
                 //Selling stock. Reserve stock.
                 :AssetReserveRequestMessage.builder()
                                             .orderId(order.getOrderId())
                                             .requestedSize(order.getSize())
+                                            .customerId(order.getCustomerId())
                                             .assetName(order.getAssetName())
                                             .build();
 

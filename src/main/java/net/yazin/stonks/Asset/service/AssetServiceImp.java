@@ -36,7 +36,7 @@ public class AssetServiceImp implements AssetService {
 
         SecurityUtils.restrict(cashRequest);
 
-        CashAsset cashAsset = assetRepository.findCashAssetByName(cashRequest.getAssetName()).orElseGet(() -> new CashAsset(cashRequest.getAssetName(),cashRequest.getCustomerId()));
+        CashAsset cashAsset = assetRepository.findCashAssetByNameAndId(cashRequest.getAssetName(), cashRequest.getCustomerId()).orElseGet(() -> new CashAsset(cashRequest.getAssetName(),cashRequest.getCustomerId()));
 
         cashAsset.deposit(cashRequest.getAmount());
 
@@ -50,7 +50,7 @@ public class AssetServiceImp implements AssetService {
 
         SecurityUtils.restrict(cashRequest);
 
-        CashAsset cashAsset = assetRepository.findCashAssetByName(cashRequest.getAssetName()).orElseGet(() -> new CashAsset(cashRequest.getAssetName(),cashRequest.getCustomerId()));
+        CashAsset cashAsset = assetRepository.findCashAssetByNameAndId(cashRequest.getAssetName(),cashRequest.getCustomerId()).orElseGet(() -> new CashAsset(cashRequest.getAssetName(),cashRequest.getCustomerId()));
 
         cashAsset.withdraw(cashRequest.getAmount());
 
@@ -66,7 +66,7 @@ public class AssetServiceImp implements AssetService {
     @ApplicationModuleListener
     public void reserveAsset(AssetReserveRequestMessage msg) {
 
-        Asset asset = assetRepository.findAssetByName(msg.getAssetName()).orElse(new StockAsset());
+        Asset asset = assetRepository.findAssetByNameAndId(msg.getAssetName(), msg.getCustomerId()).orElse(new StockAsset(msg.getAssetName(),msg.getCustomerId()));
 
         if(!asset.reserve(msg.getRequestedSize())){
             publisher.publishEvent(AssetReserveResponseMessage.builder().success(false).orderId(msg.getOrderId()).build());
@@ -83,8 +83,8 @@ public class AssetServiceImp implements AssetService {
     @ApplicationModuleListener
     public void updateAssets(OrderCancelledMessage msg) {
 
-        Asset asset = assetRepository.findAssetByName(msg.getAssetName()).orElseGet(()->generateNewAsset(msg.getAssetName(),msg.getCustomerId()));
-        CashAsset cashAsset = assetRepository.findCashAssetByName(msg.getAssetAgainst()).orElseGet(()->new CashAsset(msg.getAssetAgainst(),msg.getCustomerId()));
+        Asset asset = assetRepository.findAssetByNameAndId(msg.getAssetName(),msg.getCustomerId()).orElseGet(()->generateNewAsset(msg.getAssetName(),msg.getCustomerId()));
+        CashAsset cashAsset = assetRepository.findCashAssetByNameAndId(msg.getAssetAgainst(),msg.getCustomerId()).orElseGet(()->new CashAsset(msg.getAssetAgainst(),msg.getCustomerId()));
 
         asset.updateAfterCancelledOrder(msg.getSide(), msg.getSize());
         cashAsset.updateAfterCancelledOrder(msg.getSide(), msg.getSize() * msg.getPrice());
@@ -96,8 +96,8 @@ public class AssetServiceImp implements AssetService {
     @ApplicationModuleListener
     public void updateAssets(OrderMatchedMessage msg) {
 
-        Asset asset = assetRepository.findAssetByName(msg.getAssetName()).orElseGet(()->generateNewAsset(msg.getAssetName(), msg.getCustomerId()));
-        CashAsset cashAsset = assetRepository.findCashAssetByName(msg.getAssetAgainst()).orElseGet(()->new CashAsset(msg.getAssetAgainst(),msg.getCustomerId()));
+        Asset asset = assetRepository.findAssetByNameAndId(msg.getAssetName(),msg.getCustomerId()).orElseGet(()->generateNewAsset(msg.getAssetName(), msg.getCustomerId()));
+        CashAsset cashAsset = assetRepository.findCashAssetByNameAndId(msg.getAssetAgainst(),msg.getCustomerId()).orElseGet(()->new CashAsset(msg.getAssetAgainst(),msg.getCustomerId()));
 
         asset.updateAfterMatchedOrder(msg.getSide(), msg.getSize());
         cashAsset.updateAfterMatchedOrder(msg.getSide(), msg.getSize() * msg.getPrice());

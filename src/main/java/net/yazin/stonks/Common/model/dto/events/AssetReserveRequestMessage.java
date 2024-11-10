@@ -10,6 +10,7 @@ public class AssetReserveRequestMessage {
 
     String assetName;
     int orderId;
+    String customerId;
     double requestedSize;
 
 }
