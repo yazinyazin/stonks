@@ -13,7 +13,7 @@ public class OrderTests {
 
     @Test
     void place_order_against_cash_asset_only(){
-        assertThrows(IllegalStateException.class,()-> Order.generateNewOrder(new GenerateOrderDTO("a", "ING","KCOTAS", OrderSide.SELL,100,52.2)));
+        assertThrows(IllegalStateException.class,()-> Order.generateNewOrder(new GenerateOrderDTO("a", "KCO","KCOTAS", OrderSide.SELL,100,52.2)));
     }
 
     @Test
