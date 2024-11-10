@@ -11,7 +11,7 @@ import net.yazin.stonks.Common.model.dto.events.AssetReserveRequestMessage;
 import net.yazin.stonks.Common.model.dto.events.AssetReserveResponseMessage;
 import net.yazin.stonks.Common.model.dto.events.OrderCancelledMessage;
 import net.yazin.stonks.Common.model.dto.events.OrderMatchedMessage;
-import net.yazin.stonks.Common.security.SecurityUtils;
+import net.yazin.stonks.Common.util.SecurityUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static net.yazin.stonks.Asset.model.entity.Asset.isCashAsset;
+import static net.yazin.stonks.Common.util.AssetUtils.isCashAsset;
 
 @Service
 @RequiredArgsConstructor

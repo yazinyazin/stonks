@@ -5,7 +5,7 @@ import net.yazin.stonks.Common.model.dto.events.AssetReserveRequestMessage;
 import net.yazin.stonks.Common.model.dto.events.AssetReserveResponseMessage;
 import net.yazin.stonks.Common.model.enums.OrderSide;
 import net.yazin.stonks.Common.model.enums.OrderStatus;
-import net.yazin.stonks.Common.security.SecurityUtils;
+import net.yazin.stonks.Common.util.SecurityUtils;
 import net.yazin.stonks.Order.data.repository.OrderRepository;
 import net.yazin.stonks.Order.model.dto.GenerateOrderDTO;
 import net.yazin.stonks.Order.model.dto.OrderSearchParamsDTO;
@@ -15,7 +15,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.modulith.events.ApplicationModuleListener;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

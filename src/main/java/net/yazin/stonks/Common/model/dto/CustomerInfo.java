@@ -1,4 +1,4 @@
-package net.yazin.stonks.Common.security;
+package net.yazin.stonks.Common.model.dto;
 
 public interface CustomerInfo {
 

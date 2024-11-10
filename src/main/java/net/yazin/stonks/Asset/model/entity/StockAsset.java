@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.yazin.stonks.Common.model.enums.OrderSide;
 
+import static net.yazin.stonks.Common.util.AssetUtils.isCashAsset;
+
 @Entity
 @Getter
 @Setter

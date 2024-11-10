@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.yazin.stonks.Common.model.enums.OrderSide;
-import net.yazin.stonks.Common.security.CustomerInfo;
+import net.yazin.stonks.Common.model.dto.CustomerInfo;
 
 @Entity
 @Getter
@@ -15,7 +15,6 @@ import net.yazin.stonks.Common.security.CustomerInfo;
         discriminatorType = DiscriminatorType.INTEGER)
 @NoArgsConstructor
 public abstract class Asset implements CustomerInfo {
-    public static final String ASSET_NAME_TURKISH_LIRA = "TRY";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,11 +47,5 @@ public abstract class Asset implements CustomerInfo {
     public abstract void updateAfterMatchedOrder(OrderSide side, double requestedSize);
 
     public abstract void updateAfterCancelledOrder(OrderSide side, double requestedSize);
-
-    public static boolean isCashAsset(String assetName) {
-        //change this if we ever support other currencies
-        return assetName.equalsIgnoreCase(ASSET_NAME_TURKISH_LIRA);
-    }
-
 
 }

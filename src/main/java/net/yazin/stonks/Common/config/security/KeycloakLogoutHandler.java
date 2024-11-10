@@ -1,4 +1,4 @@
-package net.yazin.stonks.Common.security;
+package net.yazin.stonks.Common.config.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

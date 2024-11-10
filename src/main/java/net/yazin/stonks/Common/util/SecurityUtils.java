@@ -1,6 +1,7 @@
-package net.yazin.stonks.Common.security;
+package net.yazin.stonks.Common.util;
 
 import net.yazin.stonks.Common.model.enums.UserRole;
+import net.yazin.stonks.Common.model.dto.CustomerInfo;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 

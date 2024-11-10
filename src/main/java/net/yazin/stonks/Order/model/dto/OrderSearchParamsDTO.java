@@ -2,7 +2,7 @@ package net.yazin.stonks.Order.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.yazin.stonks.Common.security.CustomerInfo;
+import net.yazin.stonks.Common.model.dto.CustomerInfo;
 
 @AllArgsConstructor
 @Getter
