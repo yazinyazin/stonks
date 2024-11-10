@@ -22,7 +22,7 @@ public abstract class Asset {
 
     private int customerId;
 
-    String assetName;
+    private String assetName;
 
     protected double size;
 

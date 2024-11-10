@@ -48,19 +48,19 @@ public class CashAsset extends Asset {
     }
 
     @Override
-    public void updateAfterMatchedOrder(OrderSide side, double requestedSize) {
+    public void updateAfterMatchedOrder(OrderSide side, double requestedSizeTimesPrice) {
         if (side == OrderSide.SELL) {
 
-            size += requestedSize;
-            usableSize += requestedSize;
+            size += requestedSizeTimesPrice;
+            usableSize += requestedSizeTimesPrice;
 
         } else {
 
-            if (requestedSize > reservedSize()) {
+            if (requestedSizeTimesPrice > reservedSize()) {
                 throw new IllegalStateException("Record mismatch. Seek help.");
             }
 
-            size -= requestedSize;
+            size -= requestedSizeTimesPrice;
 
         }
     }

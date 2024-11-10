@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,6 +90,7 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public Page<Order> search(OrderSearchParamsDTO params){
+        var s = SecurityContextHolder.getContext();
         return orderRepository.findByCustomerIdAndCreatedDateGreaterThanAndCreatedDateLessThan(params.getCustomerId(), params.getStartDate(), params.getEndDate(), PageRequest.of(params.getPageNumber(),params.getItemCount()));
     }
 }
