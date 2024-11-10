@@ -2,6 +2,7 @@ package net.yazin.stonks.Asset.service;
 
 import lombok.RequiredArgsConstructor;
 import net.yazin.stonks.Asset.data.repository.AssetRepository;
+import net.yazin.stonks.Asset.model.dto.AssetSearchParamsDTO;
 import net.yazin.stonks.Asset.model.dto.CashRequestDTO;
 import net.yazin.stonks.Asset.model.entity.Asset;
 import net.yazin.stonks.Asset.model.entity.CashAsset;
@@ -11,6 +12,8 @@ import net.yazin.stonks.Common.model.dto.events.AssetReserveResponseMessage;
 import net.yazin.stonks.Common.model.dto.events.OrderCancelledMessage;
 import net.yazin.stonks.Common.model.dto.events.OrderMatchedMessage;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,5 +104,10 @@ public class AssetServiceImp implements AssetService {
     @Override
     public Asset getAsset(int assetId) {
         return assetRepository.findById(assetId).orElseThrow(() -> new RuntimeException("Asset not found"));
+    }
+
+    @Override
+    public Page<Asset> search(AssetSearchParamsDTO params) {
+        return assetRepository.findByCustomerId(params.getCustomerId(), PageRequest.of(params.getPageNumber(), params.getItemCount()));
     }
 }

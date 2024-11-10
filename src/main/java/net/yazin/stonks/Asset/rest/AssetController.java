@@ -1,9 +1,11 @@
 package net.yazin.stonks.Asset.rest;
 
 import lombok.RequiredArgsConstructor;
+import net.yazin.stonks.Asset.model.dto.AssetSearchParamsDTO;
 import net.yazin.stonks.Asset.model.dto.CashRequestDTO;
 import net.yazin.stonks.Asset.model.entity.Asset;
 import net.yazin.stonks.Asset.service.AssetService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,4 +33,8 @@ public class AssetController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("search")
+    public ResponseEntity<Page<Asset>> search(@RequestBody AssetSearchParamsDTO params){
+        return ResponseEntity.ok(assetService.search(params));
+    }
 }

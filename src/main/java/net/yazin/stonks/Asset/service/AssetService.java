@@ -1,10 +1,12 @@
 package net.yazin.stonks.Asset.service;
 
+import net.yazin.stonks.Asset.model.dto.AssetSearchParamsDTO;
 import net.yazin.stonks.Asset.model.dto.CashRequestDTO;
 import net.yazin.stonks.Asset.model.entity.Asset;
 import net.yazin.stonks.Common.model.dto.events.AssetReserveRequestMessage;
 import net.yazin.stonks.Common.model.dto.events.OrderCancelledMessage;
 import net.yazin.stonks.Common.model.dto.events.OrderMatchedMessage;
+import org.springframework.data.domain.Page;
 
 public interface AssetService {
 
@@ -19,5 +21,7 @@ public interface AssetService {
     void updateAssets(OrderMatchedMessage msg);
 
     Asset getAsset(int assetId);
+
+    Page<Asset> search(AssetSearchParamsDTO params);
 
 }

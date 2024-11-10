@@ -1,8 +1,13 @@
 package net.yazin.stonks.Asset.model.dto;
 
-import net.yazin.stonks.Common.model.enums.OrderSide;
-import net.yazin.stonks.Common.model.enums.OrderStatus;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public class AssetSearchParamsDTO {
-
+    private int customerId;
+    private int pageNumber;
+    private int itemCount;
 }
