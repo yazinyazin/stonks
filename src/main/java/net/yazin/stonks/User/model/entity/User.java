@@ -30,8 +30,8 @@ public class User {
 
     private long dateJoined;
 
-    public void setDateJoined(long dateJoined) {
-        //nope
+    private void setDateJoined(long dateJoined) {
+        this.dateJoined = dateJoined;
     }
 
     public static User getUser(UserDTO userDTO){
