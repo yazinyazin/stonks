@@ -2,11 +2,11 @@ package net.yazin.stonks.User.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.yazin.stonks.Common.model.enums.UserRole;
 
-@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class UserDTO {
 
