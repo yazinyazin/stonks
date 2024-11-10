@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.yazin.stonks.Common.model.enums.OrderSide;
 import net.yazin.stonks.Common.model.enums.OrderStatus;
+import net.yazin.stonks.Common.security.CustomerInfo;
 import net.yazin.stonks.Order.model.dto.GenerateOrderDTO;
 
 @Entity
@@ -13,11 +14,11 @@ import net.yazin.stonks.Order.model.dto.GenerateOrderDTO;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Order {
+public class Order implements CustomerInfo {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int orderId;
 
-    private int customerId;
+    private String customerId;
 
     private String assetName;
 
@@ -42,7 +43,7 @@ public class Order {
         return order;
     }
 
-    public Order(int customerId, String assetName, String assetAgainst, OrderSide side, long size, double price) {
+    public Order(String customerId, String assetName, String assetAgainst, OrderSide side, long size, double price) {
         this.customerId = customerId;
         this.assetName = assetName;
         this.assetAgainst = assetAgainst;

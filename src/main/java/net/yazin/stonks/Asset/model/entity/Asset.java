@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.yazin.stonks.Common.model.enums.OrderSide;
+import net.yazin.stonks.Common.security.CustomerInfo;
 
 @Entity
 @Getter
@@ -13,14 +14,14 @@ import net.yazin.stonks.Common.model.enums.OrderSide;
 @DiscriminatorColumn(name = "asset_type",
         discriminatorType = DiscriminatorType.INTEGER)
 @NoArgsConstructor
-public abstract class Asset {
+public abstract class Asset implements CustomerInfo {
     public static final String ASSET_NAME_TURKISH_LIRA = "TRY";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int assetId;
 
-    private int customerId;
+    private String customerId;
 
     private String assetName;
 

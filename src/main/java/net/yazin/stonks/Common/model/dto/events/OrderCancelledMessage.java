@@ -12,13 +12,13 @@ public class OrderCancelledMessage {
 
     String assetAgainst;
 
-    OrderSide orderSide;
+    OrderSide side;
 
-    double requestedSize;
+    double size;
 
     double price;
 
-    int customerId;
+    String customerId;
 
 
 }

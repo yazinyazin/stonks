@@ -11,6 +11,7 @@ import net.yazin.stonks.Common.model.dto.events.AssetReserveRequestMessage;
 import net.yazin.stonks.Common.model.dto.events.AssetReserveResponseMessage;
 import net.yazin.stonks.Common.model.dto.events.OrderCancelledMessage;
 import net.yazin.stonks.Common.model.dto.events.OrderMatchedMessage;
+import net.yazin.stonks.Common.security.SecurityUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +34,8 @@ public class AssetServiceImp implements AssetService {
     @Transactional
     public void depositCash(CashRequestDTO cashRequest) {
 
+        SecurityUtils.restrict(cashRequest);
+
         CashAsset cashAsset = assetRepository.findCashAssetByName(cashRequest.getAssetName()).orElseGet(() -> new CashAsset(cashRequest.getAssetName(),cashRequest.getCustomerId()));
 
         cashAsset.deposit(cashRequest.getAmount());
@@ -45,6 +48,8 @@ public class AssetServiceImp implements AssetService {
     @Transactional
     public void withdrawCash(CashRequestDTO cashRequest) {
 
+        SecurityUtils.restrict(cashRequest);
+
         CashAsset cashAsset = assetRepository.findCashAssetByName(cashRequest.getAssetName()).orElseGet(() -> new CashAsset(cashRequest.getAssetName(),cashRequest.getCustomerId()));
 
         cashAsset.withdraw(cashRequest.getAmount());
@@ -53,7 +58,7 @@ public class AssetServiceImp implements AssetService {
 
     }
 
-    private Asset generateNewAsset(String assetName,int customerId){
+    private Asset generateNewAsset(String assetName,String customerId){
         return isCashAsset(assetName) ? new CashAsset(assetName,customerId) : new StockAsset(assetName,customerId);
     }
 
@@ -81,8 +86,8 @@ public class AssetServiceImp implements AssetService {
         Asset asset = assetRepository.findAssetByName(msg.getAssetName()).orElseGet(()->generateNewAsset(msg.getAssetName(),msg.getCustomerId()));
         CashAsset cashAsset = assetRepository.findCashAssetByName(msg.getAssetAgainst()).orElseGet(()->new CashAsset(msg.getAssetAgainst(),msg.getCustomerId()));
 
-        asset.updateAfterCancelledOrder(msg.getOrderSide(), msg.getRequestedSize());
-        cashAsset.updateAfterCancelledOrder(msg.getOrderSide(), msg.getRequestedSize() * msg.getPrice());
+        asset.updateAfterCancelledOrder(msg.getSide(), msg.getSize());
+        cashAsset.updateAfterCancelledOrder(msg.getSide(), msg.getSize() * msg.getPrice());
 
         assetRepository.saveAll(List.of(asset,cashAsset));
     }
@@ -94,8 +99,8 @@ public class AssetServiceImp implements AssetService {
         Asset asset = assetRepository.findAssetByName(msg.getAssetName()).orElseGet(()->generateNewAsset(msg.getAssetName(), msg.getCustomerId()));
         CashAsset cashAsset = assetRepository.findCashAssetByName(msg.getAssetAgainst()).orElseGet(()->new CashAsset(msg.getAssetAgainst(),msg.getCustomerId()));
 
-        asset.updateAfterMatchedOrder(msg.getOrderSide(), msg.getRequestedSize());
-        cashAsset.updateAfterMatchedOrder(msg.getOrderSide(), msg.getRequestedSize() * msg.getPrice());
+        asset.updateAfterMatchedOrder(msg.getSide(), msg.getSize());
+        cashAsset.updateAfterMatchedOrder(msg.getSide(), msg.getSize() * msg.getPrice());
 
         assetRepository.saveAll(List.of(asset,cashAsset));
 
@@ -108,6 +113,9 @@ public class AssetServiceImp implements AssetService {
 
     @Override
     public Page<Asset> search(AssetSearchParamsDTO params) {
+
+        SecurityUtils.restrict(params);
+
         return assetRepository.findByCustomerId(params.getCustomerId(), PageRequest.of(params.getPageNumber(), params.getItemCount()));
     }
 }

@@ -18,6 +18,6 @@ public interface AssetRepository extends JpaRepository<Asset,Integer> {
     @Query("SELECT a FROM Asset a WHERE a.assetName = :var")
     Optional<Asset> findAssetByName(@Param("var")String assetName);
 
-    Page<Asset> findByCustomerId(int customerId, Pageable pageable);
+    Page<Asset> findByCustomerId(String customerId, Pageable pageable);
 
 }

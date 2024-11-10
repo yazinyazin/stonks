@@ -5,6 +5,7 @@ import net.yazin.stonks.Common.model.dto.events.AssetReserveRequestMessage;
 import net.yazin.stonks.Common.model.dto.events.AssetReserveResponseMessage;
 import net.yazin.stonks.Common.model.enums.OrderSide;
 import net.yazin.stonks.Common.model.enums.OrderStatus;
+import net.yazin.stonks.Common.security.SecurityUtils;
 import net.yazin.stonks.Order.data.repository.OrderRepository;
 import net.yazin.stonks.Order.model.dto.GenerateOrderDTO;
 import net.yazin.stonks.Order.model.dto.OrderSearchParamsDTO;
@@ -49,6 +50,8 @@ public class OrderServiceImp implements OrderService {
     @Transactional
     public void generateOrder(GenerateOrderDTO orderDTO) {
 
+        SecurityUtils.restrict(orderDTO);
+
         var order = orderRepository.save(Order.generateNewOrder(orderDTO));
 
         publisher.publishEvent(getReservationMessage(order));
@@ -58,6 +61,7 @@ public class OrderServiceImp implements OrderService {
     @Override
     @ApplicationModuleListener
     public void updateOrderAfterAssetReserved(AssetReserveResponseMessage res) {
+
         if(res.isSuccess()){
             orderRepository.updateOrderStatus(OrderStatus.PENDING,res.getOrderId());
         }
@@ -71,8 +75,11 @@ public class OrderServiceImp implements OrderService {
     public void matchOrder(int orderId) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(()->new RuntimeException("Order not found"));
+
         order.match();
+
         orderRepository.save(order);
+
         publisher.publishEvent(orderMapper.getOrderMatchedMessage(order));
 
     }
@@ -82,15 +89,23 @@ public class OrderServiceImp implements OrderService {
     public void cancelOrder(int orderId) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(()->new RuntimeException("Order not found"));
+
+        SecurityUtils.checkCustomer(order);
+
         order.cancel();
+
         orderRepository.save(order);
+
         publisher.publishEvent(orderMapper.getOrderCancelledMessage(order));
 
     }
 
     @Override
     public Page<Order> search(OrderSearchParamsDTO params){
-        var s = SecurityContextHolder.getContext();
+
+        SecurityUtils.restrict(params);
+
         return orderRepository.findByCustomerIdAndCreatedDateGreaterThanAndCreatedDateLessThan(params.getCustomerId(), params.getStartDate(), params.getEndDate(), PageRequest.of(params.getPageNumber(),params.getItemCount()));
+
     }
 }

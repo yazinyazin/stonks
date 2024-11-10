@@ -15,7 +15,7 @@ import net.yazin.stonks.Common.model.enums.OrderSide;
 public class StockAsset extends Asset {
 
 
-    public StockAsset(String assetName, int customerId){
+    public StockAsset(String assetName, String customerId){
 
         setCustomerId(customerId);
         setAssetName(assetName);

@@ -16,11 +16,6 @@ public class AssetController {
 
     private final AssetService assetService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<Asset> getAsset(@PathVariable("id") int assetId){
-        return ResponseEntity.ok(assetService.getAsset(assetId));
-    }
-
     @PostMapping("withdraw")
     public ResponseEntity<Void> withdraw(@RequestBody CashRequestDTO cashRequest){
         assetService.withdrawCash(cashRequest);

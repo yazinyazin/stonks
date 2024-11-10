@@ -48,11 +48,6 @@ public class AuthServerServiceImp implements AuthServerService{
         u.setUsername(user.getUsername());
         u.setEmail(user.getEmail());
 
-        Map<String, List<String>> attributes =  new HashMap<>();
-        attributes.put(USER_ID_IN_DB, List.of(String.valueOf(user.getUserId())));
-
-        u.setAttributes(attributes);
-
         RealmResource realm=keycloak.realm(realm_name);
         UsersResource usersResource=realm.users();
 

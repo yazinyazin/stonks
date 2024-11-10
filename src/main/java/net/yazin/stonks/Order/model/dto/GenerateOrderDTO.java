@@ -3,12 +3,13 @@ package net.yazin.stonks.Order.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.yazin.stonks.Common.model.enums.OrderSide;
+import net.yazin.stonks.Common.security.CustomerInfo;
 
 @AllArgsConstructor
 @Getter
-public class GenerateOrderDTO {
+public class GenerateOrderDTO implements CustomerInfo {
 
-    private int customerId;
+    private String customerId;
 
     private String assetName;
 
@@ -20,4 +21,8 @@ public class GenerateOrderDTO {
 
     private double price;
 
+    @Override
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
 }

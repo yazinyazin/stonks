@@ -16,5 +16,5 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     @Query("UPDATE Order o SET o.status = :var1 WHERE o.orderId = :var2")
     int updateOrderStatus(@Param("var1") OrderStatus orderStatus,@Param("var2") int orderId);
 
-    Page<Order> findByCustomerIdAndCreatedDateGreaterThanAndCreatedDateLessThan(int customerId, long startDate, long endDate, Pageable pageable);
+    Page<Order> findByCustomerIdAndCreatedDateGreaterThanAndCreatedDateLessThan(String customerId, long startDate, long endDate, Pageable pageable);
 }

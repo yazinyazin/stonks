@@ -15,7 +15,7 @@ import net.yazin.stonks.Common.model.enums.OrderSide;
 @NoArgsConstructor
 public class CashAsset extends Asset {
 
-    public CashAsset(String assetName, int customerId) {
+    public CashAsset(String assetName, String customerId) {
         setCustomerId(customerId);
         setAssetName(assetName);
     }
