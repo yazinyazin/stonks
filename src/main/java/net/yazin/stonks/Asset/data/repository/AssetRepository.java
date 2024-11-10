@@ -12,10 +12,10 @@ import java.util.Optional;
 
 public interface AssetRepository extends JpaRepository<Asset,Integer> {
     @Query("SELECT a FROM Asset a WHERE TYPE(a) = CashAsset AND a.assetName = :var1 AND a.customerId = :var2")
-    Optional<CashAsset> findCashAssetByNameAndCustomerId(@Param("var1")String assetName, @Param("var2")String customerId);
+    Optional<CashAsset> findCashAsset(@Param("var1")String assetName, @Param("var2")String customerId);
 
     @Query("SELECT a FROM Asset a WHERE a.assetName = :var1 AND a.customerId = :var2")
-    Optional<Asset> findAssetByNameAndCustomerId(@Param("var1")String assetName, @Param("var2")String customerId);
+    Optional<Asset> findAsset(@Param("var1")String assetName, @Param("var2")String customerId);
 
     Page<Asset> findByCustomerId(String customerId, Pageable pageable);
 
